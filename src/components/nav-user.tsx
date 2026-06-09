@@ -26,8 +26,8 @@ import {
 } from "@/components/ui/sidebar";
 
 const user = {
-  name: "오성훈",
-  email: "jigeumlab@gmail.com",
+  name: "김민지",
+  email: "minji@agency.com",
 };
 
 export function NavUser() {
