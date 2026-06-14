@@ -1,5 +1,7 @@
 # Skein IA + User Flow
-버전: v1.0 | 날짜: 2026.06.10
+버전: v1.1 | 날짜: 2026.06.14
+
+> v1.1 변경: 카피 생성 라우트 `/copy`→`/write`(복사 혼동 방지) · F2 브랜드 룸을 **레퍼런스 자동추출** 방식으로 갱신(멀티플랫폼 어댑터) · 사용량 계측/가격 IA 추가.
 
 > 기준: PRD v1.1 (approved). P0 = 인증·워크스페이스·브랜드 룸·AI 카피·라이브러리(+KPI 계측). P1 = AI 비주얼·팀 초대·룸 버전관리·댓글·리포트.
 > 라우트는 현 코드(`src/app`)와 일치. P1 화면은 IA에 표기하되 `(P1)` 태그로 구분.
@@ -16,10 +18,10 @@
 |---|---|---|---|
 | 워크스페이스 | 대시보드 | `/dashboard` | 워크스페이스 홈 |
 | 브랜드 (활성 브랜드 스코프) | 브랜드 룸 | `/b/{brandId}/room` | 톤 학습 (P0) |
-| | 카피 생성 | `/b/{brandId}/copy` | AI 카피 (P0) |
+| | 카피 생성 | `/b/{brandId}/write` | AI 카피 (P0) · 라벨 "카피 생성" |
 | | 비주얼 생성 `(P1)` | `/b/{brandId}/visual` | AI 비주얼 (P1) |
 | | 라이브러리 | `/b/{brandId}/library` | 콘텐츠 + 상태 관리 (P0) |
-| 설정 | 워크스페이스 설정 | `/settings/workspace` | 브랜드 CRUD·워크스페이스 |
+| 설정 | 워크스페이스 설정 | `/settings/workspace` | 브랜드 CRUD·**플랜·사용량·청구** |
 | | 멤버 `(P1)` | `/settings/members` | 팀 초대·역할 (P1) |
 
 **랜딩/인증 (비로그인 영역, 앱 셸 밖)**
@@ -58,7 +60,7 @@ graph TD
 
   App --> Brand["브랜드 스코프 (/b/{brandId})"]
   Brand --> Room["브랜드 룸 (/b/{brandId}/room)"]
-  Brand --> Copy["카피 생성 (/b/{brandId}/copy)"]
+  Brand --> Copy["카피 생성 (/b/{brandId}/write)"]
   Brand --> Visual["비주얼 생성 (/b/{brandId}/visual) (P1)"]
   Brand --> Lib["라이브러리 (/b/{brandId}/library)"]
 
@@ -98,6 +100,7 @@ graph TD
 | F3 | AI 카피 생성 → Draft 저장 | P0 코어. 컨텍스트 자동 주입·부재 경고·AI 에러 집약 |
 | F4 | 콘텐츠 승인 루프 (Draft→Review→Approved) | 핵심 가정 ②(통합 워크플로) + KPI 채택률 계측 지점 |
 | F5 | 멀티브랜드 전환 | 가정·페인 #4(톤 혼선) 방지. 격리 UX 검증 |
+| F6 | 사용량 계측·한도 (크레딧 소진→업그레이드) | 사용량 가시화 + 향후 과금 설계. 한도 인지 UX 검증 |
 
 ### 2-2. F1 — 인증·온보딩 Flow
 
@@ -135,41 +138,54 @@ flowchart TD
 - **에러**: 인증 실패, Auth 서비스 장애(3초 타임아웃), 키 누락 → 전 라우트 차단
 - **빈 상태**: 워크스페이스 0개(생성 유도), 브랜드 0개("첫 브랜드를 추가하세요")
 
-### 2-3. F2 — 브랜드 룸 셋업 Flow
+### 2-3. F2 — 브랜드 룸 셋업 Flow (레퍼런스 자동추출)
+
+> v1.1 갱신: 톤 가이드 수동입력 중심 → **레퍼런스 수집 → AI 톤 자동추출 → 사용자 검토** 중심으로 전환. 멀티플랫폼(IG·YouTube·Threads·TikTok)은 URL 어댑터로 처리.
 
 ```mermaid
 flowchart TD
   START([브랜드 룸 진입 /b/{id}/room])
   T0["셋업 타임스탬프 기록 시작 (가정③ 계측)"]
-  TAB{탭 선택}
-  GUIDE[톤 가이드 입력]
-  REF[레퍼런스 카피 추가 + 채널 태그]
-  SAVE{저장 성공?}
-  ERR_SAVE[/"오류: 저장 실패 — 내용 복사 안내"/]
-  CHECK{톤 가이드 + 레퍼런스 충족?}
-  BADGE["컨텍스트 활성화 배지 표시"]
+  SOURCE{레퍼런스 추가 방식}
+  CONNECT["계정 연동 (OAuth) — IG·Threads·YouTube·TikTok (P1)"]
+  LINK[링크 붙여넣기]
+  PASTE[텍스트 직접 입력]
+  PULL["최근 게시물 자동 수집"]
+  DETECT["플랫폼 감지 → 어댑터로 텍스트 추출"]
+  EOK{추출 성공?}
+  ERRX[/"비공개·미지원·자막 없음 — 직접 입력 폴백"/]
+  COLLECT["레퍼런스 풀 저장 (brand_references)"]
+  ENOUGH{레퍼런스 충분? ≥3·채널 커버}
+  EXTRACT["AI 톤 프로필 추출 (structured output)"]
+  REVIEW{추출 결과 검토·수정}
+  BADGE["컨텍스트 활성화 (tone_profile 확정)"]
   T1["활성화까지 경과 시간 기록"]
-  NOTREADY["미충족: 비활성 상태 유지"]
 
-  START --> T0 --> TAB
-  TAB -- 톤 가이드 --> GUIDE --> SAVE
-  TAB -- 레퍼런스 --> REF --> SAVE
-  SAVE -- 실패 --> ERR_SAVE --> TAB
-  SAVE -- 성공 --> CHECK
-  CHECK -- 충족 --> BADGE --> T1
-  CHECK -- 미충족 --> NOTREADY --> TAB
+  START --> T0 --> SOURCE
+  SOURCE -- 계정 연동 --> CONNECT --> PULL --> COLLECT
+  SOURCE -- 링크 --> LINK --> DETECT --> EOK
+  SOURCE -- 직접 입력 --> PASTE --> COLLECT
+  EOK -- 실패 --> ERRX
+  EOK -- 성공 --> COLLECT
+  COLLECT --> ENOUGH
+  ENOUGH -- 부족 --> SOURCE
+  ENOUGH -- 충분 --> EXTRACT --> REVIEW
+  REVIEW -- 수정·재추출 --> EXTRACT
+  REVIEW -- 확정 --> BADGE --> T1
 ```
 
-- **분기**: 탭(톤 가이드/레퍼런스) / 컨텍스트 충족 여부
-- **에러**: 저장 API 실패(입력 유지+복사 안내), 네트워크 단절(저장 버튼 비활성)
-- **빈 상태**: 룸 최초 진입 시 가이드·레퍼런스 0건
-- **계측**: 셋업 시작~활성화 경과 시간(가정③ 30분 검증)
+- **레퍼런스 수집 3모드**: ① 계정 연동(OAuth, P1) ② 링크 붙여넣기 ③ 텍스트 직접 입력
+- **플랫폼별 추출**(어댑터): YouTube=제목·설명+자막(transcript lib) / IG·TikTok·Threads=캡션(oEmbed·스크래퍼) / 계정 연동분=공식 API
+- **분기**: 추가 방식 / 추출 성공 여부 / 레퍼런스 충분 / 검토 확정
+- **에러·폴백**: 추출 실패(비공개·미지원·자막 없음) → 텍스트 직접 입력으로 안내
+- **계측**: 셋업 시작~컨텍스트 활성화 경과 시간(가정③ 30분 검증)
+- **데이터**: `brand_references`(원본 텍스트) + `tone_profile`(추출 보이스 프로필) 동시 보존 → 생성 시 둘 다 주입
 
 ### 2-4. F3 — AI 카피 생성 Flow (P0 코어)
 
 ```mermaid
 flowchart TD
-  START([카피 생성 진입 /b/{id}/copy])
+  START([카피 생성 진입 /b/{id}/write])
   CTX{룸 컨텍스트 있음?}
   WARN["경고 배너: 컨텍스트 없음 (계속 진행 가능)"]
   FORM[채널·포맷 선택 + 작업 지시 입력]
@@ -261,6 +277,30 @@ flowchart TD
 - **에러**: RLS 위반(다른 워크스페이스 브랜드 직접 접근) → 404
 - **빈 상태**: 워크스페이스에 브랜드 1개뿐이면 스위처 비활성
 - **격리**: 전환 시 활성 브랜드 시각 표시(`brand.color` 칩) — 페인 #4 방지
+
+### 2-7. F6 — 사용량 계측·한도 Flow
+
+```mermaid
+flowchart TD
+  ACT["과금 액션 실행 (카피=1 · 톤추출=2 · 비주얼=5 크레딧)"]
+  METER["usage_events 기록 + 주기 누적"]
+  SHOW["대시보드·설정에 사용량/잔여 표시"]
+  CHECK{잔여 크레딧 있음?}
+  WARN["80%↑ 한도 임박 경고"]
+  BLOCK[/"소진: 생성 차단 + 업그레이드 안내"/]
+  UP["플랜 업그레이드 (Beta→Pro→Agency)"]
+
+  ACT --> METER --> SHOW --> CHECK
+  CHECK -- 여유 --> ACT
+  CHECK -- 임박(≥80%) --> WARN --> ACT
+  CHECK -- 소진 --> BLOCK --> UP
+```
+
+- **계측 단위**: 크레딧. 액션별 단가 `CREDIT_COST` (카피 1 · 톤추출 2 · 비주얼 5)
+- **데이터**: `usage_events`(workspace_id, brand_id, type, credits, created_at) → 주기별 집계
+- **표시**: 대시보드 요약 바 + 설정의 유형별·브랜드별 분해
+- **한도**: 베타는 차단 대신 경고만(과금 없음). 정식 출시 시 소진→차단·과금
+- **가격(제안)**: Beta 무료/100크레딧 · Pro $49/1,000 · Agency $149/5,000 (seat·월)
 
 ---
 
