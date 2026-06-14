@@ -19,7 +19,7 @@ import { getBrand } from "@/lib/mock-data";
 const LABELS: Record<string, string> = {
   dashboard: "대시보드",
   room: "브랜드 룸",
-  copy: "카피 생성",
+  write: "카피 생성",
   visual: "비주얼 생성",
   library: "라이브러리",
   settings: "설정",

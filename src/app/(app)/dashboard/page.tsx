@@ -85,7 +85,7 @@ export default function DashboardPage() {
                   variant="ghost"
                   size="sm"
                   className="flex-1 justify-start px-2"
-                  render={<Link href={`/b/${b.id}/copy`} />}
+                  render={<Link href={`/b/${b.id}/write`} />}
                 >
                   <PenLine className="text-muted-foreground" />
                   카피

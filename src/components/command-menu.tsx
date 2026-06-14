@@ -83,7 +83,7 @@ export function CommandMenu() {
         </CommandGroup>
         <CommandSeparator />
         <CommandGroup heading="만들기">
-          <CommandItem onSelect={() => go(`/b/${brands[0].id}/copy`)}>
+          <CommandItem onSelect={() => go(`/b/${brands[0].id}/write`)}>
             <PenLine />
             카피 생성
           </CommandItem>

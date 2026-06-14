@@ -1,7 +1,7 @@
 import { PenLine } from "lucide-react";
 import { PagePlaceholder } from "@/components/page-placeholder";
 
-export default function CopyPage() {
+export default function WritePage() {
   return (
     <PagePlaceholder
       stage="F2 · AI 카피 생성"

@@ -32,7 +32,7 @@ export function NavMain() {
 
   const brandNav = [
     { title: "브랜드 룸", url: `${base}/room`, icon: Sparkles },
-    { title: "카피 생성", url: `${base}/copy`, icon: PenLine },
+    { title: "카피 생성", url: `${base}/write`, icon: PenLine },
     { title: "비주얼 생성", url: `${base}/visual`, icon: ImageIcon },
     { title: "라이브러리", url: `${base}/library`, icon: Library },
   ];
