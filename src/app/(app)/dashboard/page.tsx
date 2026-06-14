@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { UsageMeter } from "@/components/usage-meter";
 import { brands } from "@/lib/mock-data";
 
 export default function DashboardPage() {
@@ -32,6 +33,9 @@ export default function DashboardPage() {
           <Plus />새 브랜드
         </Button>
       </div>
+
+      {/* 사용량 요약 */}
+      <UsageMeter compact />
 
       {/* 브랜드 카드 그리드 */}
       <section>
