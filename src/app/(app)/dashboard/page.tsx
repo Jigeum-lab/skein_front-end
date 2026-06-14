@@ -42,7 +42,7 @@ export default function DashboardPage() {
         <h2 className="mb-3 text-sm font-medium text-muted-foreground">
           브랜드
         </h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {brands.map((b) => (
             <Card key={b.id} className="group overflow-hidden">
               <CardHeader className="flex-row items-center gap-3 space-y-0">
