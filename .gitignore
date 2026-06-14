@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local tooling (IDE / agents / MCP)
+.idea/
+.claude/
+.omc/
+.mcp.json
