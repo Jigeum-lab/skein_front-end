@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 // Skein 로고 — "실타래"를 감는 형태의 간단한 마크 + 워드마크
 export function Logo({

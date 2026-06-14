@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 
 import { Logo } from "@/components/logo";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/button";
 import { HeroPreview } from "@/components/hero-preview";
 
 const stats = [

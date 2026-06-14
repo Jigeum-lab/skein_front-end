@@ -8,7 +8,7 @@ import {
   SidebarHeader,
   SidebarRail,
   SidebarSeparator,
-} from "@/components/ui/sidebar";
+} from "@/shared/ui/sidebar";
 import { WorkspaceSwitcher } from "@/components/workspace-switcher";
 import { BrandSwitcher } from "@/components/brand-switcher";
 import { NavMain } from "@/components/nav-main";

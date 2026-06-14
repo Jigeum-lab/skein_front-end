@@ -6,9 +6,9 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+} from "@/shared/ui/card";
+import { Badge } from "@/shared/ui/badge";
+import { Button } from "@/shared/ui/button";
 import { UsageMeter } from "@/components/usage-meter";
 import { plans, currentUsage, workspaces } from "@/lib/mock-data";
 

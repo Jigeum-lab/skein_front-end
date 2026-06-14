@@ -19,7 +19,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command";
+} from "@/shared/ui/command";
 import { brands } from "@/lib/mock-data";
 
 export function CommandMenu() {

@@ -17,7 +17,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/shared/ui/sidebar";
 import { brands, getBrand } from "@/lib/mock-data";
 
 export function NavMain() {

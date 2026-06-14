@@ -16,7 +16,7 @@ export async function apiClient<T>(
 ): Promise<T> {
   if (isServer()) {
     // 서버 전용 모듈은 동적 import — 클라이언트 번들 오염 방지
-    const { createClient } = await import("@/lib/supabase/server");
+    const { createClient } = await import("@/shared/lib/supabase/server");
     const supabase = await createClient();
     const {
       data: { session },

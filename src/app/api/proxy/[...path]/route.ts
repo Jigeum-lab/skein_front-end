@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { BASE_URL } from "@/shared/config/env";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/shared/lib/supabase/server";
 
 /**
  * 백엔드(NestJS) 프록시. 클라이언트는 `/api/proxy/*`로 호출하고,
