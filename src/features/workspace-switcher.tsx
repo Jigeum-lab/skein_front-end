@@ -29,6 +29,7 @@ import {
 } from "@/shared/ui/sidebar";
 import { workspaces, getWorkspaceBySlug } from "@/entities";
 import { useWorkspaceSlug } from "@/shared/lib/use-workspace";
+import { createClient } from "@/shared/lib/supabase/client";
 
 const user = {
   name: "김민지",
@@ -41,6 +42,13 @@ export function WorkspaceSwitcher() {
   const router = useRouter();
   const wsSlug = useWorkspaceSlug();
   const active = getWorkspaceBySlug(wsSlug) ?? workspaces[0];
+  const supabase = React.useMemo(() => createClient(), []);
+
+  async function signOut() {
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  }
 
   return (
     <SidebarMenu>
@@ -126,7 +134,7 @@ export function WorkspaceSwitcher() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => router.push("/login")}>
+            <DropdownMenuItem onClick={signOut}>
               <LogOut />
               로그아웃
             </DropdownMenuItem>
