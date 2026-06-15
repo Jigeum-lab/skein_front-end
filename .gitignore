@@ -33,7 +33,6 @@ yarn-error.log*
 # env files — secrets are ignored; non-secret example/dev defaults are committed
 .env*
 !.env.example
-!.env.development
 
 # vercel
 .vercel

@@ -17,8 +17,10 @@ interface EnvironmentVariables {
 
 const ENV: EnvironmentVariables = {
   BASE_URL: process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:4000/api",
+  // 명시 설정 우선 · 없으면 개발=mock, 그 외(빌드/배포)=api
   DATA_SOURCE:
-    (process.env.NEXT_PUBLIC_DATA_SOURCE as DataSource) || "api",
+    (process.env.NEXT_PUBLIC_DATA_SOURCE as DataSource) ||
+    (process.env.NODE_ENV === "development" ? "mock" : "api"),
   SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
   SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
 };
