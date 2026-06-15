@@ -21,10 +21,12 @@ import {
   CommandSeparator,
 } from "@/shared/ui/command";
 import { brands } from "@/lib/mock-data";
+import { useWorkspaceSlug } from "@/shared/lib/use-workspace";
 
 export function CommandMenu() {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
+  const ws = useWorkspaceSlug();
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -55,11 +57,11 @@ export function CommandMenu() {
       <CommandList>
         <CommandEmpty>결과 없음.</CommandEmpty>
         <CommandGroup heading="이동">
-          <CommandItem onSelect={() => go("/dashboard")}>
+          <CommandItem onSelect={() => go(`/${ws}/dashboard`)}>
             <LayoutDashboard />
             대시보드
           </CommandItem>
-          <CommandItem onSelect={() => go("/settings/workspace")}>
+          <CommandItem onSelect={() => go(`/${ws}/settings/workspace`)}>
             <Settings />
             설정
           </CommandItem>
@@ -69,7 +71,7 @@ export function CommandMenu() {
           {brands.map((b) => (
             <CommandItem
               key={b.id}
-              onSelect={() => go(`/b/${b.id}/room`)}
+              onSelect={() => go(`/${ws}/b/${b.id}/room`)}
             >
               <span
                 className="flex size-4 items-center justify-center rounded text-[10px] font-bold text-white"
@@ -83,19 +85,19 @@ export function CommandMenu() {
         </CommandGroup>
         <CommandSeparator />
         <CommandGroup heading="만들기">
-          <CommandItem onSelect={() => go(`/b/${brands[0].id}/write`)}>
+          <CommandItem onSelect={() => go(`/${ws}/b/${brands[0].id}/write`)}>
             <PenLine />
             카피 생성
           </CommandItem>
-          <CommandItem onSelect={() => go(`/b/${brands[0].id}/visual`)}>
+          <CommandItem onSelect={() => go(`/${ws}/b/${brands[0].id}/visual`)}>
             <ImageIcon />
             비주얼 생성
           </CommandItem>
-          <CommandItem onSelect={() => go(`/b/${brands[0].id}/room`)}>
+          <CommandItem onSelect={() => go(`/${ws}/b/${brands[0].id}/room`)}>
             <Sparkles />
             브랜드 룸 열기
           </CommandItem>
-          <CommandItem onSelect={() => go(`/b/${brands[0].id}/library`)}>
+          <CommandItem onSelect={() => go(`/${ws}/b/${brands[0].id}/library`)}>
             <Library />
             라이브러리
           </CommandItem>

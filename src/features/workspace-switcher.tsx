@@ -27,7 +27,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/shared/ui/sidebar";
-import { workspaces } from "@/lib/mock-data";
+import { workspaces, getWorkspaceBySlug } from "@/lib/mock-data";
+import { useWorkspaceSlug } from "@/shared/lib/use-workspace";
 
 const user = {
   name: "김민지",
@@ -38,7 +39,8 @@ const user = {
 export function WorkspaceSwitcher() {
   const { isMobile } = useSidebar();
   const router = useRouter();
-  const [active, setActive] = React.useState(workspaces[0]);
+  const wsSlug = useWorkspaceSlug();
+  const active = getWorkspaceBySlug(wsSlug) ?? workspaces[0];
 
   return (
     <SidebarMenu>
@@ -94,7 +96,7 @@ export function WorkspaceSwitcher() {
             {workspaces.map((ws) => (
               <DropdownMenuItem
                 key={ws.id}
-                onClick={() => setActive(ws)}
+                onClick={() => router.push(`/${ws.slug}/dashboard`)}
                 className="gap-2 p-2"
               >
                 <div className="flex size-6 items-center justify-center rounded-md border bg-background text-xs font-semibold">

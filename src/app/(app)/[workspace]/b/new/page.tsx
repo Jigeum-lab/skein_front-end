@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/shared/ui/card";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
+import { useWorkspaceSlug } from "@/shared/lib/use-workspace";
 
 const COLORS = [
   "oklch(0.62 0.19 293)",
@@ -21,6 +22,7 @@ const COLORS = [
 
 export default function NewBrandPage() {
   const router = useRouter();
+  const ws = useWorkspaceSlug();
   const [name, setName] = React.useState("");
   const [color, setColor] = React.useState(COLORS[0]);
   const initial = name.trim().charAt(0).toUpperCase() || "?";
@@ -32,7 +34,7 @@ export default function NewBrandPage() {
     }
     // 데모: 실제로는 POST /workspaces/:id/brands → 새 brandId
     toast.success(`"${name}" 브랜드 생성됨 — 브랜드 룸으로 이동`);
-    router.push("/dashboard");
+    router.push(`/${ws}/dashboard`);
   }
 
   return (

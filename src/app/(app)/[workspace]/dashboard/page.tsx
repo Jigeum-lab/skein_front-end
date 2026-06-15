@@ -12,7 +12,12 @@ import { Button } from "@/shared/ui/button";
 import { UsageMeter } from "@/widgets/usage-meter";
 import { brands } from "@/lib/mock-data";
 
-export default function DashboardPage() {
+export default async function DashboardPage({
+  params,
+}: {
+  params: Promise<{ workspace: string }>;
+}) {
+  const { workspace: ws } = await params;
   const totalContent = brands.reduce((s, b) => s + b.contentCount, 0);
   const liveBrands = brands.filter((b) => b.roomReady > 0).length;
 
@@ -29,7 +34,7 @@ export default function DashboardPage() {
             {totalContent}건
           </p>
         </div>
-        <Button render={<Link href="/b/new" />}>
+        <Button render={<Link href={`/${ws}/b/new`} />}>
           <Plus />새 브랜드
         </Button>
       </div>
@@ -89,7 +94,7 @@ export default function DashboardPage() {
                   variant="ghost"
                   size="sm"
                   className="flex-1 justify-start px-2"
-                  render={<Link href={`/b/${b.id}/write`} />}
+                  render={<Link href={`/${ws}/b/${b.id}/write`} />}
                 >
                   <PenLine className="text-muted-foreground" />
                   카피
@@ -98,7 +103,7 @@ export default function DashboardPage() {
                   variant="ghost"
                   size="sm"
                   className="flex-1 justify-start px-2"
-                  render={<Link href={`/b/${b.id}/visual`} />}
+                  render={<Link href={`/${ws}/b/${b.id}/visual`} />}
                 >
                   <ImageIcon className="text-muted-foreground" />
                   비주얼
@@ -106,7 +111,7 @@ export default function DashboardPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  render={<Link href={`/b/${b.id}/room`} />}
+                  render={<Link href={`/${ws}/b/${b.id}/room`} />}
                 >
                   열기
                   <ArrowRight />
@@ -117,7 +122,7 @@ export default function DashboardPage() {
 
           {/* 새 브랜드 추가 카드 */}
           <Link
-            href="/b/new"
+            href={`/${ws}/b/new`}
             className="flex min-h-[14rem] flex-col items-center justify-center rounded-xl border border-dashed text-muted-foreground transition-colors hover:border-primary/40 hover:bg-accent/40 hover:text-primary"
           >
             <Plus className="size-6" />

@@ -34,7 +34,7 @@ export default function LoginPage() {
               autoComplete="email"
             />
           </div>
-          <Button className="w-full" render={<Link href="/dashboard" />}>
+          <Button className="w-full" render={<Link href="/jigeum-lab/dashboard" />}>
             로그인 링크 받기
           </Button>
           <div className="relative text-center text-xs text-muted-foreground">
@@ -44,7 +44,7 @@ export default function LoginPage() {
           <Button
             variant="outline"
             className="w-full"
-            render={<Link href="/dashboard" />}
+            render={<Link href="/jigeum-lab/dashboard" />}
           >
             Google로 계속하기
           </Button>

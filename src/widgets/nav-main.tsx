@@ -19,15 +19,17 @@ import {
   SidebarMenuItem,
 } from "@/shared/ui/sidebar";
 import { brands, getBrand } from "@/lib/mock-data";
+import { useWorkspaceSlug } from "@/shared/lib/use-workspace";
 
 export function NavMain() {
   const pathname = usePathname();
   const params = useParams<{ brandId?: string }>();
+  const ws = useWorkspaceSlug();
   const brand = (params?.brandId && getBrand(params.brandId)) || brands[0];
-  const base = `/b/${brand.id}`;
+  const base = `/${ws}/b/${brand.id}`;
 
   const workspaceNav = [
-    { title: "대시보드", url: "/dashboard", icon: LayoutDashboard },
+    { title: "대시보드", url: `/${ws}/dashboard`, icon: LayoutDashboard },
   ];
 
   const brandNav = [
@@ -38,7 +40,7 @@ export function NavMain() {
   ];
 
   const settingsNav = [
-    { title: "설정", url: "/settings/workspace", icon: Settings },
+    { title: "설정", url: `/${ws}/settings/workspace`, icon: Settings },
   ];
 
   const isActive = (url: string) =>

@@ -23,6 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/ui/dropdown-menu";
 import { brands, getBrand } from "@/lib/mock-data";
+import { useWorkspaceSlug } from "@/shared/lib/use-workspace";
 
 const LABELS: Record<string, string> = {
   dashboard: "대시보드",
@@ -39,7 +40,8 @@ function useCrumbs() {
   const pathname = usePathname();
   const segs = pathname.split("/").filter(Boolean);
   const crumbs: string[] = [];
-  for (let i = 0; i < segs.length; i++) {
+  // 첫 세그먼트(워크스페이스 슬러그)는 브레드크럼에서 생략
+  for (let i = 1; i < segs.length; i++) {
     const s = segs[i];
     if (s === "b") {
       const brand = getBrand(segs[i + 1]);
@@ -56,6 +58,7 @@ function useCrumbs() {
 function HeaderBrandSelector() {
   const router = useRouter();
   const params = useParams<{ brandId?: string }>();
+  const ws = useWorkspaceSlug();
   const current = (params?.brandId && getBrand(params.brandId)) || brands[0];
 
   return (
@@ -83,7 +86,7 @@ function HeaderBrandSelector() {
         {brands.map((b) => (
           <DropdownMenuItem
             key={b.id}
-            onClick={() => router.push(`/b/${b.id}/room`)}
+            onClick={() => router.push(`/${ws}/b/${b.id}/room`)}
             className="gap-2"
           >
             <span

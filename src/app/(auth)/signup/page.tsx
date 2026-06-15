@@ -38,13 +38,13 @@ export default function SignupPage() {
               autoComplete="email"
             />
           </div>
-          <Button className="w-full" render={<Link href="/dashboard" />}>
+          <Button className="w-full" render={<Link href="/jigeum-lab/dashboard" />}>
             워크스페이스 만들기
           </Button>
           <Button
             variant="outline"
             className="w-full"
-            render={<Link href="/dashboard" />}
+            render={<Link href="/jigeum-lab/dashboard" />}
           >
             Google로 가입
           </Button>
