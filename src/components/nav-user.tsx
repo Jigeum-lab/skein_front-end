@@ -27,7 +27,7 @@ import {
 
 const user = {
   name: "김민지",
-  email: "minji@agency.com",
+  email: "minji@jigeum.lab",
 };
 
 export function NavUser() {

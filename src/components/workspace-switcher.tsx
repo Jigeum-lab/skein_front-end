@@ -31,7 +31,7 @@ import { workspaces } from "@/lib/mock-data";
 
 const user = {
   name: "김민지",
-  email: "minji@agency.com",
+  email: "minji@jigeum.lab",
 };
 
 // Notion 스타일: 상단 단일 진입점 = 워크스페이스 + 계정(드롭다운에 흡수)

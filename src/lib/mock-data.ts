@@ -20,7 +20,7 @@ export type Brand = {
 };
 
 export const workspaces: Workspace[] = [
-  { id: "ws_woojung", name: "우아한연구소", plan: "Beta" },
+  { id: "ws_jigeum", name: "지금.lab", plan: "Beta" },
   { id: "ws_demo", name: "Demo Agency", plan: "Agency" },
 ];
 
@@ -151,9 +151,9 @@ export type WorkspaceUsage = {
   byBrand: { brandId: string; credits: number }[];
 };
 
-// 현재 워크스페이스(우아한연구소 · Beta) 이번 주기 사용량
+// 현재 워크스페이스(지금.lab · Beta) 이번 주기 사용량
 export const currentUsage: WorkspaceUsage = {
-  workspaceId: "ws_woojung",
+  workspaceId: "ws_jigeum",
   planId: "beta",
   cycleStart: "2026-06-01",
   cycleEnd: "2026-06-30",

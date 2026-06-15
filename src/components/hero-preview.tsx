@@ -20,7 +20,7 @@ export function HeroPreview() {
         <span className="size-2.5 rounded-full bg-muted-foreground/25" />
         <span className="size-2.5 rounded-full bg-muted-foreground/25" />
         <div className="mx-auto flex h-5 items-center rounded-md bg-background px-3 text-[11px] text-muted-foreground">
-          skein.app / 우아한연구소
+          skein.app / 지금.lab
         </div>
       </div>
 
@@ -33,7 +33,7 @@ export function HeroPreview() {
             </div>
             <div className="min-w-0">
               <p className="truncate text-[11px] font-semibold leading-none">
-                우아한연구소
+                지금.lab
               </p>
               <p className="mt-0.5 text-[9px] text-muted-foreground">
                 Beta 워크스페이스
