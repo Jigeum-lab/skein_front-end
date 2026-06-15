@@ -1,9 +1,8 @@
 import { createBrowserClient } from "@supabase/ssr";
 
+import { SUPABASE_URL, SUPABASE_KEY } from "@/shared/config/env";
+
 // 브라우저(클라이언트 컴포넌트)용 Supabase 클라이언트
 export function createClient() {
-  return createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  );
+  return createBrowserClient(SUPABASE_URL, SUPABASE_KEY);
 }

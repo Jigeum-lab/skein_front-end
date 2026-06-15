@@ -1,14 +1,13 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
+import { SUPABASE_URL, SUPABASE_KEY } from "@/shared/config/env";
+
 // 서버(서버 컴포넌트·라우트 핸들러·서버 액션)용 Supabase 클라이언트
 export async function createClient() {
   const cookieStore = await cookies();
 
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
+  return createServerClient(SUPABASE_URL, SUPABASE_KEY, {
       cookies: {
         getAll() {
           return cookieStore.getAll();

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "gen:api": "openapi-typescript http://localhost:4000/api/docs-json -o src/shared/api/types.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
@@ -39,6 +40,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.7",
     "eslint-plugin-boundaries": "^6.0.2",
+    "openapi-typescript": "^7.13.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

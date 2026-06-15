@@ -1,10 +1,12 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+import { SUPABASE_URL, SUPABASE_KEY } from "@/shared/config/env";
+
 // 매 요청마다 Supabase 세션 토큰을 갱신해 쿠키에 반영
 export async function updateSession(request: NextRequest) {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const url = SUPABASE_URL;
+  const key = SUPABASE_KEY;
 
   // 키가 아직 없으면(연동 전) 그냥 통과 — 앱이 깨지지 않게
   if (!url || !key) {

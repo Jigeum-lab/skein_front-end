@@ -12,17 +12,31 @@ interface EnvironmentVariables {
   /** mock 데이터 vs 실 API */
   DATA_SOURCE: DataSource;
   SUPABASE_URL: string;
-  SUPABASE_ANON_KEY: string;
+  /** Supabase publishable key (구 anon key) — 브라우저 노출 OK */
+  SUPABASE_KEY: string;
+}
+
+// 백엔드 핸드오프는 NEXT_PUBLIC_API_BASE_URL=http://localhost:4000 (prefix 없음)을 권장.
+// 프론트 관례는 /api까지 포함한 단일 BASE_URL이므로 둘 다 수용한다.
+function resolveBaseUrl(): string {
+  if (process.env.NEXT_PUBLIC_BASE_URL) return process.env.NEXT_PUBLIC_BASE_URL;
+  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
+  if (apiBase) return apiBase.endsWith("/api") ? apiBase : `${apiBase}/api`;
+  return "http://localhost:4000/api";
 }
 
 const ENV: EnvironmentVariables = {
-  BASE_URL: process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:4000/api",
+  BASE_URL: resolveBaseUrl(),
   // 명시 설정 우선 · 없으면 개발=mock, 그 외(빌드/배포)=api
   DATA_SOURCE:
     (process.env.NEXT_PUBLIC_DATA_SOURCE as DataSource) ||
     (process.env.NODE_ENV === "development" ? "mock" : "api"),
   SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-  SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
+  // 신규 publishable key 우선, 구 anon key 폴백
+  SUPABASE_KEY:
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    "",
 };
 
 // 개발 환경에서만 누락 경고
@@ -33,7 +47,7 @@ if (process.env.NODE_ENV === "development" && ENV.DATA_SOURCE === "api") {
   });
 }
 
-export const { BASE_URL } = ENV;
+export const { BASE_URL, SUPABASE_URL, SUPABASE_KEY } = ENV;
 export const DATA_SOURCE = ENV.DATA_SOURCE;
 /** true면 mock-data 사용, false면 실 API 호출 */
 export const USE_MOCK = ENV.DATA_SOURCE === "mock";
