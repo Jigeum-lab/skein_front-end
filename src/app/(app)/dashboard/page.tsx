@@ -29,7 +29,7 @@ export default function DashboardPage() {
             {totalContent}건
           </p>
         </div>
-        <Button>
+        <Button render={<Link href="/b/new" />}>
           <Plus />새 브랜드
         </Button>
       </div>
@@ -116,13 +116,14 @@ export default function DashboardPage() {
           ))}
 
           {/* 새 브랜드 추가 카드 */}
-          <button className="flex min-h-[14rem] flex-col items-center justify-center rounded-xl border border-dashed text-muted-foreground transition-colors hover:border-primary/40 hover:bg-accent/40 hover:text-primary">
+          <Link
+            href="/b/new"
+            className="flex min-h-[14rem] flex-col items-center justify-center rounded-xl border border-dashed text-muted-foreground transition-colors hover:border-primary/40 hover:bg-accent/40 hover:text-primary"
+          >
             <Plus className="size-6" />
             <span className="mt-2 text-sm font-medium">새 브랜드 추가</span>
-            <span className="mt-1 text-xs">
-              로고·톤·금지어를 등록해 시작
-            </span>
-          </button>
+            <span className="mt-1 text-xs">로고·톤·금지어를 등록해 시작</span>
+          </Link>
         </div>
       </section>
     </div>

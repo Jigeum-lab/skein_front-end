@@ -2,7 +2,17 @@
 
 import * as React from "react";
 import { useParams } from "next/navigation";
-import { Sparkles, Link2, Plus, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import {
+  Sparkles,
+  Link2,
+  Plus,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+  FileText,
+  Image as ImageIcon,
+  Video,
+} from "lucide-react";
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/shared/ui/tabs";
 import { Card, CardContent } from "@/shared/ui/card";
@@ -17,9 +27,18 @@ import {
   getReferences,
   getToneProfile,
   PLATFORM_LABEL,
+  REF_KIND_LABEL,
+  REF_KIND_HINT,
   type ReferenceItem,
   type RefPlatform,
+  type RefKind,
 } from "@/lib/mock-data";
+
+const KIND_ICON: Record<RefKind, typeof FileText> = {
+  text: FileText,
+  image: ImageIcon,
+  video: Video,
+};
 
 // URL에서 플랫폼 감지 (어댑터 라우팅의 첫 단계)
 function detectPlatform(url: string): RefPlatform {
@@ -42,6 +61,44 @@ export default function BrandRoomPage() {
   const [refs, setRefs] = React.useState<ReferenceItem[]>(() => getReferences(brandId));
   const [url, setUrl] = React.useState("");
   const [manual, setManual] = React.useState("");
+  const [kind, setKind] = React.useState<RefKind>("text");
+  const [mediaUrl, setMediaUrl] = React.useState("");
+
+  // 이미지/영상 레퍼런스 추출 (비전·STT)
+  function addMedia() {
+    const u = mediaUrl.trim();
+    if (!u) return;
+    const id = `ref_${Date.now()}`;
+    setRefs((r) => [
+      {
+        id,
+        brandId,
+        platform: detectPlatform(u),
+        channel: `${REF_KIND_LABEL[kind]} · ${u.slice(0, 28)}…`,
+        sourceUrl: u,
+        text: "",
+        status: "pending",
+      },
+      ...r,
+    ]);
+    setMediaUrl("");
+    window.setTimeout(() => {
+      setRefs((r) =>
+        r.map((x) =>
+          x.id === id
+            ? {
+                ...x,
+                status: "extracted",
+                text:
+                  kind === "image"
+                    ? "이미지에서 무드·컬러·구도·문구 추출 (데모)"
+                    : "영상 자막(STT)+키프레임 비전으로 톤·페이싱 추출 (데모)",
+              }
+            : x,
+        ),
+      );
+    }, 1400);
+  }
 
   const extractedCount = refs.filter((r) => r.status === "extracted").length;
   const contextActive = extractedCount >= MIN_REFS && !!tone;
@@ -214,55 +271,103 @@ export default function BrandRoomPage() {
           {/* 추가: 3 모드 */}
           <Card>
             <CardContent className="space-y-4 pt-6">
+              {/* 추출 종류: 텍스트 / 이미지 / 영상 */}
               <div className="space-y-1.5">
-                <Label className="text-xs text-muted-foreground">계정 연동 (P1)</Label>
-                <div className="flex flex-wrap gap-2">
-                  {(["instagram", "youtube", "threads", "tiktok"] as const).map((p) => (
-                    <Button key={p} variant="outline" size="sm" disabled>
-                      {PLATFORM_LABEL[p]} 연동
+                <Label className="text-xs text-muted-foreground">추출 종류</Label>
+                <div className="flex gap-1.5">
+                  {(["text", "image", "video"] as const).map((k) => {
+                    const Icon = KIND_ICON[k];
+                    return (
+                      <Button
+                        key={k}
+                        type="button"
+                        variant={kind === k ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setKind(k)}
+                      >
+                        <Icon /> {REF_KIND_LABEL[k]}
+                      </Button>
+                    );
+                  })}
+                </div>
+                <p className="text-xs text-muted-foreground">{REF_KIND_HINT[kind]}</p>
+              </div>
+
+              {kind === "text" ? (
+                <>
+                  <div className="space-y-1.5">
+                    <Label className="text-xs text-muted-foreground">계정 연동 (P1)</Label>
+                    <div className="flex flex-wrap gap-2">
+                      {(["instagram", "youtube", "threads", "tiktok"] as const).map((p) => (
+                        <Button key={p} variant="outline" size="sm" disabled>
+                          {PLATFORM_LABEL[p]} 연동
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label htmlFor="ref-url" className="text-xs text-muted-foreground">
+                      링크 붙여넣기 (IG · YouTube · Threads · TikTok)
+                    </Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="ref-url"
+                        placeholder="https://instagram.com/p/..."
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && addFromLink()}
+                      />
+                      <Button onClick={addFromLink} disabled={!url.trim()}>
+                        <Link2 /> 추출
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label htmlFor="ref-manual" className="text-xs text-muted-foreground">
+                      텍스트 직접 입력 (비공개·미지원 폴백)
+                    </Label>
+                    <Textarea
+                      id="ref-manual"
+                      placeholder="잘 쓴 브랜드 카피를 붙여넣으세요…"
+                      rows={3}
+                      value={manual}
+                      onChange={(e) => setManual(e.target.value)}
+                    />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={addManual}
+                      disabled={!manual.trim()}
+                    >
+                      <Plus /> 레퍼런스 추가
                     </Button>
-                  ))}
+                  </div>
+                </>
+              ) : (
+                <div className="space-y-1.5">
+                  <Label htmlFor="ref-media" className="text-xs text-muted-foreground">
+                    {kind === "image" ? "이미지 URL" : "영상 URL"} 붙여넣기
+                  </Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="ref-media"
+                      placeholder={
+                        kind === "image"
+                          ? "https://.../image.jpg"
+                          : "https://youtube.com/watch?v=..."
+                      }
+                      value={mediaUrl}
+                      onChange={(e) => setMediaUrl(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && addMedia()}
+                    />
+                    <Button onClick={addMedia} disabled={!mediaUrl.trim()}>
+                      <Link2 /> 추출
+                    </Button>
+                  </div>
                 </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="ref-url" className="text-xs text-muted-foreground">
-                  링크 붙여넣기 (IG · YouTube · Threads · TikTok)
-                </Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="ref-url"
-                    placeholder="https://instagram.com/p/..."
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && addFromLink()}
-                  />
-                  <Button onClick={addFromLink} disabled={!url.trim()}>
-                    <Link2 /> 추출
-                  </Button>
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="ref-manual" className="text-xs text-muted-foreground">
-                  텍스트 직접 입력 (비공개·미지원 폴백)
-                </Label>
-                <Textarea
-                  id="ref-manual"
-                  placeholder="잘 쓴 브랜드 카피를 붙여넣으세요…"
-                  rows={3}
-                  value={manual}
-                  onChange={(e) => setManual(e.target.value)}
-                />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={addManual}
-                  disabled={!manual.trim()}
-                >
-                  <Plus /> 레퍼런스 추가
-                </Button>
-              </div>
+              )}
             </CardContent>
           </Card>
 
