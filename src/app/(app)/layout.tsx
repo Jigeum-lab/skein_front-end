@@ -13,7 +13,7 @@ export default function AppLayout({
       <AppSidebar />
       <SidebarInset>
         <SiteHeader />
-        <main className="flex-1 p-4 md:p-6">{children}</main>
+        <main className="@container/main flex-1 p-4 md:p-6">{children}</main>
       </SidebarInset>
       <CommandMenu />
     </SidebarProvider>

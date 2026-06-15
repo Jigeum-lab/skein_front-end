@@ -17,7 +17,7 @@ export default function DashboardPage() {
   const liveBrands = brands.filter((b) => b.roomReady > 0).length;
 
   return (
-    <div className="mx-auto max-w-6xl space-y-8">
+    <div className="flex flex-col gap-8">
       {/* 헤더 */}
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
@@ -42,7 +42,7 @@ export default function DashboardPage() {
         <h2 className="mb-3 text-sm font-medium text-muted-foreground">
           브랜드
         </h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 @2xl/main:grid-cols-2 @4xl/main:grid-cols-3 @6xl/main:grid-cols-4">
           {brands.map((b) => (
             <Card key={b.id} className="group overflow-hidden">
               <CardHeader className="flex-row items-center gap-3 space-y-0">
