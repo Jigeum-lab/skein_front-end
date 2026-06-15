@@ -1,5 +1,5 @@
 import { Sparkles, PenLine, ImageIcon, Library, LayoutDashboard } from "lucide-react";
-import { brands } from "@/lib/mock-data";
+import { brands } from "@/entities";
 
 // 랜딩 히어로용 정적 앱 프리뷰 목업 — 실제 토큰으로 Skein 앱 셸을 재현
 export function HeroPreview() {

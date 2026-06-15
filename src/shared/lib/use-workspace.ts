@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 
-import { defaultWorkspace } from "@/lib/mock-data";
+import { defaultWorkspace } from "@/entities";
 
 /** 현재 URL의 워크스페이스 슬러그 (없으면 기본 워크스페이스) */
 export function useWorkspaceSlug(): string {

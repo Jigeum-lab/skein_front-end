@@ -27,7 +27,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/shared/ui/sidebar";
-import { workspaces, getWorkspaceBySlug } from "@/lib/mock-data";
+import { workspaces, getWorkspaceBySlug } from "@/entities";
 import { useWorkspaceSlug } from "@/shared/lib/use-workspace";
 
 const user = {

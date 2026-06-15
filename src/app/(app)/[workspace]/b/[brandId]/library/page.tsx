@@ -23,7 +23,7 @@ import {
   CONTENT_STATUS_LABEL,
   type ContentItem,
   type ContentStatus,
-} from "@/lib/mock-data";
+} from "@/entities";
 
 const FILTERS: ("all" | ContentStatus)[] = ["all", "draft", "review", "approved"];
 const FILTER_LABEL: Record<string, string> = {

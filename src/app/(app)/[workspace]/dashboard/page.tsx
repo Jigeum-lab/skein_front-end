@@ -10,7 +10,7 @@ import {
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { UsageMeter } from "@/widgets/usage-meter";
-import { brands } from "@/lib/mock-data";
+import { brands } from "@/entities";
 
 export default async function DashboardPage({
   params,

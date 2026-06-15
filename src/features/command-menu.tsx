@@ -20,7 +20,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/shared/ui/command";
-import { brands } from "@/lib/mock-data";
+import { brands } from "@/entities";
 import { useWorkspaceSlug } from "@/shared/lib/use-workspace";
 
 export function CommandMenu() {

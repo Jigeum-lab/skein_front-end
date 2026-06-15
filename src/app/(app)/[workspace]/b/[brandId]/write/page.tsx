@@ -24,7 +24,7 @@ import {
   getToneProfile,
   CHANNELS,
   FORMATS,
-} from "@/lib/mock-data";
+} from "@/entities";
 
 function Segmented({
   options,

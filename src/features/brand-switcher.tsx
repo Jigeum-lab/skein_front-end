@@ -18,7 +18,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/shared/ui/sidebar";
-import { brands, getBrand } from "@/lib/mock-data";
+import { brands, getBrand } from "@/entities";
 
 export function BrandSwitcher() {
   const { isMobile } = useSidebar();

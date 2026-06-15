@@ -32,7 +32,7 @@ import {
   type ReferenceItem,
   type RefPlatform,
   type RefKind,
-} from "@/lib/mock-data";
+} from "@/entities";
 
 const KIND_ICON: Record<RefKind, typeof FileText> = {
   text: FileText,

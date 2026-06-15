@@ -6,7 +6,7 @@ import {
   getBrand,
   USAGE_LABEL,
   type UsageType,
-} from "@/lib/mock-data";
+} from "@/entities";
 
 function fmtCycle(start: string, end: string) {
   const s = new Date(start);

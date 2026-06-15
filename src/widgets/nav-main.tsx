@@ -18,7 +18,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/shared/ui/sidebar";
-import { brands, getBrand } from "@/lib/mock-data";
+import { brands, getBrand } from "@/entities";
 import { useWorkspaceSlug } from "@/shared/lib/use-workspace";
 
 export function NavMain() {

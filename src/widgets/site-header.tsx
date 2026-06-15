@@ -22,7 +22,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/ui/dropdown-menu";
-import { brands, getBrand } from "@/lib/mock-data";
+import { brands, getBrand } from "@/entities";
 import { useWorkspaceSlug } from "@/shared/lib/use-workspace";
 
 const LABELS: Record<string, string> = {

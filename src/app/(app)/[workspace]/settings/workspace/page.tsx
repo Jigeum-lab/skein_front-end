@@ -10,7 +10,7 @@ import {
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { UsageMeter } from "@/widgets/usage-meter";
-import { plans, currentUsage, workspaces } from "@/lib/mock-data";
+import { plans, currentUsage, workspaces } from "@/entities";
 
 export default function WorkspaceSettingsPage() {
   const ws = workspaces.find((w) => w.id === currentUsage.workspaceId) ?? workspaces[0];
