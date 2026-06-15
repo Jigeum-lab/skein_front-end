@@ -18,7 +18,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/shared/ui/sidebar";
-import { BrandSwitcher } from "@/components/brand-switcher";
 import { brands, getBrand } from "@/lib/mock-data";
 
 export function NavMain() {
@@ -65,8 +64,13 @@ export function NavMain() {
       </SidebarGroup>
 
       <SidebarGroup>
-        {/* 브랜드 스위처 — 최상단이 아니라 브랜드 nav 섹션 머리에 위치 */}
-        <BrandSwitcher />
+        <SidebarGroupLabel className="flex items-center gap-1.5">
+          <span
+            className="size-2 rounded-full"
+            style={{ backgroundColor: brand.color }}
+          />
+          {brand.name}
+        </SidebarGroupLabel>
         <SidebarMenu>
           {brandNav.map((item) => (
             <SidebarMenuItem key={item.url}>
