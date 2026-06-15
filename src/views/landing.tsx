@@ -51,8 +51,8 @@ const trust = [
     desc: "당신의 브랜드 자산이 톤 학습에 어떻게 쓰이는지, 처음부터 끝까지 보입니다.",
   },
   {
-    title: "함께 만드는 베타",
-    desc: "미국 타깃 뷰티 D2C 대행사와 비공개 베타로 검증하며 만들고 있습니다.",
+    title: "지금 만들어지는 중",
+    desc: "활발히 개발 중이며, 사용자 피드백을 빠르게 반영하고 있습니다.",
   },
 ];
 
@@ -67,8 +67,8 @@ export default function LandingPage() {
             <Button variant="ghost" size="sm" render={<Link href="/login" />}>
               로그인
             </Button>
-            <Button size="sm" render={<Link href="/signup" />}>
-              베타 데모 신청
+            <Button size="sm" render={<Link href="/login" />}>
+              시작하기
             </Button>
           </nav>
         </div>
@@ -88,20 +88,17 @@ export default function LandingPage() {
           채로.
         </p>
         <div className="mt-8 flex flex-wrap items-center gap-5">
-          <Button size="lg" render={<Link href="/signup" />}>
-            베타 데모 신청
+          <Button size="lg" render={<Link href="/login" />}>
+            시작하기
             <ArrowRight />
           </Button>
           <Link
-            href="/dashboard"
+            href="/jigeum-lab/dashboard"
             className="text-sm font-medium underline-offset-4 hover:underline"
           >
             작동 방식 보기 →
           </Link>
         </div>
-        <p className="mt-6 text-xs text-muted-foreground">
-          미국 타깃 뷰티 D2C 대행사와 비공개 베타 · 브랜드 간 데이터 기본 격리
-        </p>
       </section>
 
       {/* 앱 프리뷰 */}
@@ -203,8 +200,8 @@ export default function LandingPage() {
             첫 브랜드를 등록하고 카피 5안·비주얼 3안을 만들어보는 데 30분이면
             충분합니다.
           </p>
-          <Button size="lg" className="mt-8" render={<Link href="/signup" />}>
-            베타 데모 신청
+          <Button size="lg" className="mt-8" render={<Link href="/login" />}>
+            시작하기
             <ArrowRight />
           </Button>
         </div>

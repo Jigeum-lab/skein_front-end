@@ -8,7 +8,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/shared/ui/card";
@@ -49,12 +48,6 @@ export default function LoginPage() {
             Google로 계속하기
           </Button>
         </CardContent>
-        <CardFooter className="justify-center text-sm text-muted-foreground">
-          계정이 없으신가요?{" "}
-          <Link href="/signup" className="ml-1 font-medium text-primary">
-            가입하기
-          </Link>
-        </CardFooter>
       </Card>
     </div>
   );
