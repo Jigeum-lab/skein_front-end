@@ -62,7 +62,7 @@ export default function LibraryPage() {
   }
 
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold tracking-tight">
@@ -92,7 +92,7 @@ export default function LibraryPage() {
           <p className="text-sm">아직 생성된 콘텐츠가 없습니다.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-4 @3xl/main:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 @3xl/main:grid-cols-2 @6xl/main:grid-cols-3">
           {shown.map((c) => (
             <Card key={c.id} className="flex flex-col">
               <CardContent className="flex flex-1 flex-col gap-3 pt-5">
