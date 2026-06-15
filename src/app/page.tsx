@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 
-import { Logo } from "@/components/logo";
+import { Logo } from "@/shared/ui/logo";
 import { Button } from "@/shared/ui/button";
-import { HeroPreview } from "@/components/hero-preview";
+import { HeroPreview } from "@/widgets/hero-preview";
 
 const stats = [
   { value: "5+", label: "오가던 제작 도구를 하나로" },

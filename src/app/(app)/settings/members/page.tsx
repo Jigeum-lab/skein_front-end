@@ -1,5 +1,5 @@
 import { Users } from "lucide-react";
-import { PagePlaceholder } from "@/components/page-placeholder";
+import { PagePlaceholder } from "@/shared/ui/page-placeholder";
 
 export default function MembersPage() {
   return (

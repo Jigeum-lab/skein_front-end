@@ -1,7 +1,7 @@
 import { SidebarInset, SidebarProvider } from "@/shared/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
-import { SiteHeader } from "@/components/site-header";
-import { CommandMenu } from "@/components/command-menu";
+import { AppSidebar } from "@/widgets/app-sidebar";
+import { SiteHeader } from "@/widgets/site-header";
+import { CommandMenu } from "@/features/command-menu";
 
 export default function AppLayout({
   children,

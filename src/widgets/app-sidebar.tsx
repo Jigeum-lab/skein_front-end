@@ -9,8 +9,8 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from "@/shared/ui/sidebar";
-import { WorkspaceSwitcher } from "@/components/workspace-switcher";
-import { NavMain } from "@/components/nav-main";
+import { WorkspaceSwitcher } from "@/features/workspace-switcher";
+import { NavMain } from "@/widgets/nav-main";
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   return (

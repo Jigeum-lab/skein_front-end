@@ -9,7 +9,7 @@ import {
 } from "@/shared/ui/card";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
-import { UsageMeter } from "@/components/usage-meter";
+import { UsageMeter } from "@/widgets/usage-meter";
 import { plans, currentUsage, workspaces } from "@/lib/mock-data";
 
 export default function WorkspaceSettingsPage() {

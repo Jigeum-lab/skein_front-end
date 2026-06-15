@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 
 // Beams는 Three.js Canvas라 SSR 비활성 + 클라이언트 전용 로드
-const Beams = dynamic(() => import("@/components/Beams"), { ssr: false });
+const Beams = dynamic(() => import("@/shared/ui/Beams"), { ssr: false });
 
 // 친근 라이트 배경 위 은은한 퍼플 빛줄기 — 하단으로 페이드 마스크
 export function HeroBeams() {
